@@ -19,7 +19,7 @@ export const profile = {
   callLink: "https://calendly.com/basadre-bellyjoe/30min",
   facebookLink: "https://www.facebook.com/bellyjoe.official",
   bio: [
-    "I am a Web Developer specializing in Quasar, Vue.js, PHP, and Laravel, building responsive and scalable web applications with strong backend architecture and structured databases.",
+    "I am a Web Developer specializing in Quasar, Vue.js, and Laravel (PHP), building responsive and scalable web applications with strong backend architecture and structured databases.",
     "I developed Librasense (Library Management System), where I integrated a machine learning feature to enhance analytics and decision-making, and a Leave Monitoring System focused on workflow automation, API integration, and efficient leave tracking.",
     "I build secure, user-friendly systems that go beyond basic CRUD and deliver real operational value.",
   ],
