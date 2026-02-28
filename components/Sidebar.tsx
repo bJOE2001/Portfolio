@@ -28,7 +28,7 @@ export default function Sidebar() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
-        className="card p-6"
+        className="card p-5 sm:p-6"
       >
         {/* Large centered avatar */}
         <div className="flex flex-col items-center text-center mb-5">
@@ -87,7 +87,7 @@ export default function Sidebar() {
           >
             <Phone size={13} /> Schedule a Call
           </a>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <a
               href={`mailto:${profile.email}`}
               className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-[var(--border)] text-xs font-medium text-[var(--text-muted)] hover:bg-[var(--accent-light)] hover:text-[var(--text)] transition-colors"

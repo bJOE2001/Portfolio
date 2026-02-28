@@ -27,7 +27,7 @@ function CertRow({ cert, i }: { cert: typeof certifications[0]; i: number }) {
       initial={{ opacity: 0, x: -5 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.18, delay: i * 0.04 }}
-      className="group flex items-center gap-3 py-2.5 hover:bg-[var(--accent-light)] -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+      className="group flex flex-col items-start sm:flex-row sm:items-center gap-2.5 sm:gap-3 py-2.5 hover:bg-[var(--accent-light)] -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
     >
       <span
         className={`text-[10px] font-bold px-2 py-0.5 rounded border shrink-0 ${

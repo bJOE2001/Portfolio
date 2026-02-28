@@ -73,6 +73,18 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+
+          {/* Mobile theme toggle */}
+          <div className="mt-3 pt-3 border-t border-[var(--border)] flex items-center justify-between">
+            <span className="text-xs font-medium text-[var(--text-muted)]">Appearance</span>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className="flex items-center gap-2 py-1.5 px-3 rounded-md text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+            >
+              {mounted && theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
+              <span>{mounted && theme === "dark" ? "Light mode" : "Dark mode"}</span>
+            </button>
+          </div>
         </div>
       )}
     </header>

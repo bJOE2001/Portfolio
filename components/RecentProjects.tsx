@@ -32,7 +32,7 @@ export default function RecentProjects() {
               transition={{ duration: 0.22, delay: i * 0.05 }}
               className="group py-3"
             >
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex items-start gap-3 min-w-0">
                   {/* Icon */}
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border bg-[var(--accent-light)] border-[var(--border)]`}>
@@ -65,16 +65,29 @@ export default function RecentProjects() {
                         </span>
                       ))}
                     </div>
+
+                    {/* Mobile external link */}
+                    {hasUrl && (
+                      <a
+                        href={`https://${project.url}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-text)] hover:underline sm:hidden"
+                      >
+                        <ExternalLink size={12} />
+                        <span>Open project</span>
+                      </a>
+                    )}
                   </div>
                 </div>
 
-                {/* External link */}
+                {/* Desktop / tablet external link */}
                 {hasUrl && (
                   <a
                     href={`https://${project.url}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-[var(--accent-light)] text-[var(--text-light)] hover:text-[var(--text)] transition-colors shrink-0 mt-0.5"
+                    className="hidden sm:inline-flex self-auto p-1.5 rounded-lg hover:bg-[var(--accent-light)] text-[var(--text-light)] hover:text-[var(--text)] transition-colors shrink-0 mt-0.5"
                   >
                     <ExternalLink size={13} />
                   </a>
