@@ -30,12 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
-      <body className="min-h-screen bg-[var(--bg)] antialiased transition-colors duration-300">
+      <body className="min-h-screen bg-[var(--bg)] antialiased transition-colors duration-500 ease-in-out">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
-          disableTransitionOnChange
         >
           {children}
         </ThemeProvider>

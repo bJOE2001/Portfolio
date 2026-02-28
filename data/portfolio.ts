@@ -16,7 +16,7 @@ export const profile = {
   roles: ["Web Developer"],
   award: "Hackathon 2025 Champion",
   email: "basadre.bellyjoe@gmail.com",
-  callLink: "https://calendly.com",
+  callLink: "https://calendly.com/basadre-bellyjoe/30min",
   facebookLink: "https://www.facebook.com/bellyjoe.official",
   bio: [
     "I am a Web Developer specializing in Quasar, Vue.js, PHP, and Laravel, building responsive and scalable web applications with strong backend architecture and structured databases.",
