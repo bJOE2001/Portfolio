@@ -5,12 +5,12 @@ import {
   MapPin, BadgeCheck, Mail, Phone, BookOpen,
   Linkedin, Github, Instagram, Trophy, Facebook
 } from "lucide-react";
-import { profile, techStack, social, speaking } from "@/data/portfolio";
+import { profile, techStack, social } from "@/data/portfolio";
 
 const categoryColors: Record<string, string> = {
-  Frontend: "bg-violet-50 text-violet-700 border-violet-200",
-  Backend:  "bg-sky-50   text-sky-700   border-sky-200",
-  Tools:    "bg-emerald-50 text-emerald-700 border-emerald-200",
+  Frontend: "bg-[var(--accent-light)] text-[var(--text)] border-[var(--border)]",
+  Backend:  "bg-[var(--accent-light)] text-[var(--text)] border-[var(--border)]",
+  Tools:    "bg-[var(--accent-light)] text-[var(--text)] border-[var(--border)]",
 };
 
 const socialIcons: Record<string, React.ReactNode> = {
@@ -32,14 +32,37 @@ export default function Sidebar() {
       >
         {/* Large centered avatar */}
         <div className="flex flex-col items-center text-center mb-5">
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-100 to-indigo-200 flex items-center justify-center border-4 border-white shadow-md mb-3">
-            <span className="text-4xl font-black text-violet-600">
-              {profile.name.charAt(0)}
-            </span>
+          <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-md mb-3 overflow-hidden relative group/avatar cursor-pointer">
+            {profile.avatarUrl ? (
+              <>
+                <img 
+                  src={profile.avatarUrl} 
+                  alt={profile.name} 
+                  className={`w-full h-full object-cover ${profile.avatarHoverUrl ? 'group-hover/avatar:opacity-0' : ''}`}
+                />
+                {profile.avatarHoverUrl && (
+                  <img 
+                    src={profile.avatarHoverUrl} 
+                    alt={`${profile.name} hover`} 
+                    className="w-full h-full object-cover absolute inset-0 opacity-0 group-hover/avatar:opacity-100"
+                  />
+                )}
+              </>
+            ) : (
+              <span className="text-4xl font-black text-black">
+                {profile.name.charAt(0)}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-1.5 justify-center">
-            <h1 className="font-bold text-lg text-[var(--text)]">{profile.name}</h1>
-            {profile.verified && <BadgeCheck size={16} className="text-blue-500 shrink-0" />}
+          <div className="flex items-center gap-1.5 justify-center mt-2 w-full max-w-[200px] mx-auto">
+            <h1 className="font-bold text-lg text-[var(--text)] text-center leading-tight">{profile.name}</h1>
+            {profile.verified && (
+              <BadgeCheck 
+                size={16} 
+                fill="#1da1f2" 
+                className="text-white shrink-0 -mt-0.5" 
+              />
+            )}
           </div>
           <p className="text-xs text-[var(--text-muted)] flex items-center gap-1 mt-1">
             <MapPin size={11} /> {profile.location}
@@ -47,7 +70,7 @@ export default function Sidebar() {
           {/* Roles */}
           <div className="flex flex-wrap gap-1 justify-center mt-2.5">
             {profile.roles.map((r) => (
-              <span key={r} className="px-2.5 py-0.5 text-[11px] font-medium rounded-full bg-violet-50 text-violet-700 border border-violet-100">
+              <span key={r} className="px-2.5 py-0.5 text-[11px] font-medium rounded-full bg-[var(--accent-light)] text-[var(--text)] border border-[var(--border)]">
                 {r}
               </span>
             ))}
@@ -60,14 +83,14 @@ export default function Sidebar() {
             href={profile.callLink}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[var(--text)] text-white text-xs font-semibold hover:bg-gray-800 transition-colors"
+            className="flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-[var(--text)] text-[var(--bg)] text-xs font-semibold hover:opacity-80 transition-colors"
           >
             <Phone size={13} /> Schedule a Call
           </a>
           <div className="grid grid-cols-2 gap-2">
             <a
               href={`mailto:${profile.email}`}
-              className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-[var(--border)] text-xs font-medium text-[var(--text-muted)] hover:bg-gray-50 hover:text-[var(--text)] transition-colors"
+              className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-[var(--border)] text-xs font-medium text-[var(--text-muted)] hover:bg-[var(--accent-light)] hover:text-[var(--text)] transition-colors"
             >
               <Mail size={12} /> Email
             </a>
@@ -75,7 +98,7 @@ export default function Sidebar() {
               href={profile.facebookLink}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-[var(--border)] text-xs font-medium text-[var(--text-muted)] hover:bg-gray-50 hover:text-[#1877F2] transition-colors"
+              className="flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-[var(--border)] text-xs font-medium text-[var(--text-muted)] hover:bg-[var(--accent-light)] hover:text-[var(--text)] transition-colors"
             >
               <Facebook size={12} /> Facebook
             </a>
@@ -120,7 +143,7 @@ export default function Sidebar() {
                 {skills.map((s) => (
                   <span
                     key={s}
-                    className={`text-[11px] font-medium px-2 py-0.5 rounded-md border ${categoryColors[cat] ?? "bg-gray-50 text-gray-600 border-gray-200"}`}
+                    className={`text-[11px] font-medium px-2 py-0.5 rounded-md border ${categoryColors[cat] ?? "bg-[var(--accent-light)] text-[var(--text-muted)] border-[var(--border)]"}`}
                   >
                     {s}
                   </span>
@@ -154,11 +177,6 @@ export default function Sidebar() {
               {s.label}
             </a>
           ))}
-          <div className="pt-1 border-t border-[var(--border)] mt-2">
-            <p className="text-[11px] text-[var(--text-light)] leading-relaxed">
-              {speaking.description}
-            </p>
-          </div>
         </div>
       </motion.div>
 

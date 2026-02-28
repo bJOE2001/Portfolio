@@ -6,7 +6,14 @@ import { projects } from "@/data/portfolio";
 
 export default function RecentProjects() {
   return (
-    <section id="projects" className="card p-5">
+    <motion.section 
+      id="projects" 
+      className="card p-5"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       <div className="flex items-center justify-between mb-3">
         <p className="section-label mb-0">Projects</p>
       </div>
@@ -28,8 +35,8 @@ export default function RecentProjects() {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-3 min-w-0">
                   {/* Icon */}
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border ${isOngoing ? "bg-amber-50 border-amber-100" : "bg-violet-50 border-violet-100"}`}>
-                    <span className={`text-xs font-black ${isOngoing ? "text-amber-600" : "text-violet-600"}`}>
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 border bg-[var(--accent-light)] border-[var(--border)]`}>
+                    <span className="text-xs font-black text-[var(--text)]">
                       {project.name.charAt(0)}
                     </span>
                   </div>
@@ -39,12 +46,12 @@ export default function RecentProjects() {
                     <div className="flex items-center gap-2 flex-wrap mb-0.5">
                       <span className="text-sm font-semibold text-[var(--text)]">{project.name}</span>
                       {isOngoing && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-100">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--text)] border border-[var(--border)]">
                           <Clock size={9} /> Ongoing
                         </span>
                       )}
                       {hasUrl && !isOngoing && (
-                        <span className="font-mono text-[10px] text-[var(--text-light)] bg-gray-100 px-1.5 py-0.5 rounded">
+                        <span className="font-mono text-[10px] text-[var(--text-light)] bg-[var(--accent-light)] px-1.5 py-0.5 rounded border border-[var(--border)]">
                           {project.url}
                         </span>
                       )}
@@ -53,7 +60,7 @@ export default function RecentProjects() {
                     {/* Tech tags */}
                     <div className="flex flex-wrap gap-1">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-gray-100 text-[var(--text-muted)] border border-gray-200">
+                        <span key={tag} className="text-[10px] font-medium px-2 py-0.5 rounded-md bg-[var(--accent-light)] text-[var(--text-muted)] border border-[var(--border)]">
                           {tag}
                         </span>
                       ))}
@@ -67,7 +74,7 @@ export default function RecentProjects() {
                     href={`https://${project.url}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-violet-50 text-[var(--text-light)] hover:text-violet-600 transition-colors shrink-0 mt-0.5"
+                    className="p-1.5 rounded-lg hover:bg-[var(--accent-light)] text-[var(--text-light)] hover:text-[var(--text)] transition-colors shrink-0 mt-0.5"
                   >
                     <ExternalLink size={13} />
                   </a>
@@ -77,6 +84,6 @@ export default function RecentProjects() {
           );
         })}
       </div>
-    </section>
+    </motion.section>
   );
 }

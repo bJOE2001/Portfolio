@@ -108,13 +108,6 @@ export default function Hero() {
                   {profile.name.charAt(0)}
                 </span>
               </div>
-              {/* Award badge */}
-              {/* <div className="absolute -bottom-4 -right-4 px-3 py-1.5 rounded-xl glass border border-[var(--border)] flex items-center gap-2 shadow-xl">
-                <Sparkles size={13} className="text-amber-400" />
-                <span className="text-xs font-semibold text-amber-300 whitespace-nowrap">
-                  {profile.award}
-                </span>
-              </div> */}
             </div>
 
             {/* Location */}

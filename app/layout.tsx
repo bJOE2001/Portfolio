@@ -8,17 +8,20 @@ const inter = Inter({
   display: "swap",
 });
 
+import { profile } from "@/data/portfolio";
+
 export const metadata: Metadata = {
-  title: "Your Name — AI Engineer & Full-Stack Developer",
-  description:
-    "Personal portfolio of a full-stack software engineer specializing in AI, web applications, and modern tech solutions.",
+  title: profile.seoTitle || "Portfolio",
+  description: profile.seoDescription || "Personal portfolio showcasing projects, experience, and more.",
   keywords: ["portfolio", "software engineer", "AI", "full-stack", "developer"],
   openGraph: {
-    title: "Your Name — AI Engineer & Full-Stack Developer",
-    description: "Personal portfolio showcasing projects, experience, and more.",
+    title: profile.seoTitle || "Portfolio",
+    description: profile.seoDescription || "Personal portfolio showcasing projects, experience, and more.",
     type: "website",
   },
 };
+
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function RootLayout({
   children,
@@ -26,8 +29,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-[#f5f5f5] antialiased">{children}</body>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-screen bg-[var(--bg)] antialiased transition-colors duration-300">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

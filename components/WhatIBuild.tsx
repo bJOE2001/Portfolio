@@ -3,49 +3,37 @@
 import { motion } from "framer-motion";
 import { Globe, Database, Puzzle, Cpu } from "lucide-react";
 
-const services = [
-  {
-    icon: <Globe size={18} className="text-violet-600" />,
-    bg: "bg-violet-50 border-violet-100",
-    title: "Web Applications",
-    desc: "Responsive, scalable apps built with Vue.js, Quasar, and Laravel.",
-  },
-  {
-    icon: <Database size={18} className="text-sky-600" />,
-    bg: "bg-sky-50 border-sky-100",
-    title: "Backend & APIs",
-    desc: "REST APIs, structured databases (PostgreSQL, MSSQL), and secure server-side logic.",
-  },
-  {
-    icon: <Puzzle size={18} className="text-emerald-600" />,
-    bg: "bg-emerald-50 border-emerald-100",
-    title: "System Integrations",
-    desc: "Workflow automation, third-party API integrations, and leave/HR systems.",
-  },
-  {
-    icon: <Cpu size={18} className="text-amber-600" />,
-    bg: "bg-amber-50 border-amber-100",
-    title: "ML-Enhanced Features",
-    desc: "Integrating machine learning into apps for smarter analytics and decision-making.",
-  },
-];
+import { whatIBuild } from "@/data/portfolio";
+
+const iconMap: Record<string, React.ReactNode> = {
+  globe: <Globe size={18} className="text-[var(--text)]" />,
+  database: <Database size={18} className="text-[var(--text)]" />,
+  puzzle: <Puzzle size={18} className="text-[var(--text)]" />,
+  cpu: <Cpu size={18} className="text-[var(--text)]" />,
+};
 
 export default function WhatIBuild() {
   return (
-    <section className="card p-5">
+    <motion.section 
+      className="card p-5"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       <p className="section-label">What I Build</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {services.map((s, i) => (
+        {whatIBuild.map((s, i) => (
           <motion.div
             key={s.title}
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.22, delay: i * 0.06 }}
-            className={`flex items-start gap-3 p-3 rounded-xl border ${s.bg}`}
+            className={`flex items-start gap-3 p-3 rounded-xl border bg-[var(--accent-light)] border-[var(--border)]`}
           >
-            <div className={`w-8 h-8 rounded-lg border ${s.bg} flex items-center justify-center shrink-0 bg-white`}>
-              {s.icon}
+            <div className={`w-8 h-8 rounded-lg border bg-[var(--card)] border-[var(--border)] flex items-center justify-center shrink-0`}>
+              {iconMap[s.iconName] || <Globe size={18} className="text-black" />}
             </div>
             <div>
               <p className="text-xs font-bold text-[var(--text)] mb-0.5">{s.title}</p>
@@ -54,6 +42,6 @@ export default function WhatIBuild() {
           </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

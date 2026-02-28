@@ -5,7 +5,14 @@ import { experience } from "@/data/portfolio";
 
 export default function Experience() {
   return (
-    <section id="experience" className="card p-5">
+    <motion.section 
+      id="experience" 
+      className="card p-5"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       <p className="section-label">Experience</p>
 
       <div className="relative">
@@ -23,7 +30,7 @@ export default function Experience() {
               className="relative group"
             >
               {/* Dot */}
-              <span className="absolute -left-6 top-1.5 w-2.5 h-2.5 rounded-full bg-white border-2 border-gray-300 group-hover:border-violet-500 transition-colors" />
+              <span className="absolute -left-6 top-1.5 w-2.5 h-2.5 rounded-full bg-white border-2 border-gray-300 group-hover:border-black transition-colors" />
 
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -40,6 +47,6 @@ export default function Experience() {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
