@@ -26,7 +26,7 @@ export const profile = {
 };
 
 export const techStack = {
-  Frontend: ["Vue.js", "Quasar", "TypeScript", "JavaScript", "Tailwind CSS", "Next.js", "React"],
+  Frontend: ["Vue.js", "Quasar", "TypeScript", "JavaScript", "Alpine.js", "Tailwind CSS", "Next.js", "React"],
   Backend: ["PHP", "Laravel", "Python", "PostgreSQL", "MSSQL", "MySQL"],
   Tools: ["Docker", "GitHub Actions", "Git", "VS Code", "Cursor"],
 };
