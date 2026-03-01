@@ -23,6 +23,8 @@ export const metadata: Metadata = {
 
 import { ThemeProvider } from "@/components/ThemeProvider";
 
+import Chatbot from "@/components/Chatbot";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,6 +39,7 @@ export default function RootLayout({
           enableSystem
         >
           {children}
+          <Chatbot />
         </ThemeProvider>
       </body>
     </html>

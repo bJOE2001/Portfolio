@@ -35,18 +35,34 @@ export default function Sidebar() {
           <div className="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center border-4 border-white shadow-md mb-3 overflow-hidden relative group/avatar cursor-pointer">
             {profile.avatarUrl ? (
               <>
-                <img 
-                  src={profile.avatarUrl} 
-                  alt={profile.name} 
-                  className={`w-full h-full object-cover ${profile.avatarHoverUrl ? 'group-hover/avatar:opacity-0' : ''}`}
-                />
-                {profile.avatarHoverUrl && (
+                {/* Light Mode Avatar */}
+                <div className="dark:hidden w-full h-full relative">
                   <img 
-                    src={profile.avatarHoverUrl} 
-                    alt={`${profile.name} hover`} 
+                    src={profile.avatarUrl} 
+                    alt={profile.name} 
+                    className={`w-full h-full object-cover ${profile.avatarHoverUrl ? 'group-hover/avatar:opacity-0' : ''}`}
+                  />
+                  {profile.avatarHoverUrl && (
+                    <img 
+                      src={profile.avatarHoverUrl} 
+                      alt={`${profile.name} hover`} 
+                      className="w-full h-full object-cover absolute inset-0 opacity-0 group-hover/avatar:opacity-100"
+                    />
+                  )}
+                </div>
+                {/* Dark Mode Avatar */}
+                <div className="hidden dark:block w-full h-full relative">
+                  <img 
+                    src="/sleeping.png" 
+                    alt={`${profile.name} sleeping`} 
+                    className="w-full h-full object-cover group-hover/avatar:opacity-0"
+                  />
+                  <img 
+                    src="/sleepinghover.png" 
+                    alt={`${profile.name} dreaming`} 
                     className="w-full h-full object-cover absolute inset-0 opacity-0 group-hover/avatar:opacity-100"
                   />
-                )}
+                </div>
               </>
             ) : (
               <span className="text-4xl font-black text-black">

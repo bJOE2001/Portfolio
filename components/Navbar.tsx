@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -24,12 +25,25 @@ export default function Navbar() {
     <header className="bg-[var(--sidebar-bg)] border-b border-[var(--border)] sticky top-0 z-40 transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="font-bold text-[var(--text)] text-sm tracking-tight">
+        <Link 
+          href="/" 
+          className="flex items-center gap-2"
+          onClick={(e) => {
+            if (window.location.pathname === "/") {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }}
+        >
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="font-bold text-[var(--text)] text-sm tracking-tight"
+          >
             {profile.navbarLogo.start}
             <span className="text-[var(--accent-text)]">{profile.navbarLogo.accent}</span>
             {profile.navbarLogo.end}
-          </span>
+          </motion.div>
         </Link>
 
         {/* Desktop */}
