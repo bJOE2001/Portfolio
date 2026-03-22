@@ -2,7 +2,7 @@
 
 export const profile = {
   name: "Belly Joe Basadre",
-  seoTitle: "Belly Joe Basadre — Web Developer",
+  seoTitle: "Belly Joe Basadre — Full-Stack Developer",
   seoDescription: "Personal portfolio of a full-stack software engineer specializing in modern web development.",
   navbarLogo: {
     start: "bellyjoe",
@@ -13,15 +13,15 @@ export const profile = {
   avatarUrl: "/profile.jpg", // Put your image URL here (e.g. "/me.jpg" if inside the public folder, or a full "https://" link)
   avatarHoverUrl: "/thumbsup.png", // Optional: Second image that appears when hovered
   location: "Davao del Norte, Philippines",
-  roles: ["Web Developer"],
+  roles: ["Full-Stack Developer"],
   award: "Hackathon 2025 Champion",
   email: "basadre.bellyjoe@gmail.com",
   callLink: "https://calendly.com/basadre-bellyjoe/30min",
   facebookLink: "https://www.facebook.com/bellyjoe.official",
   bio: [
-    "I am a Web Developer specializing in Quasar, Vue.js, and Laravel (PHP), building responsive and scalable web applications with strong backend architecture and structured databases.",
-    "I developed Librasense (Library Management System), where I integrated a machine learning feature to enhance analytics and decision-making, and a Leave Monitoring System focused on workflow automation, API integration, and efficient leave tracking.",
-    "I build secure, user-friendly systems that go beyond basic CRUD and deliver real operational value.",
+    "I’m a responsible and hardworking aspiring Full-Stack Developer who enjoys building practical and meaningful web applications. I’m always eager to learn new technologies, improve my skills, and grow through real-world experience.",
+    "I focus on writing clean and reliable code, making sure every project is done carefully and on time. I like solving problems, taking on challenges, and continuously improving how I build systems.",
+    "I work well in a team but can also handle tasks independently when needed. My goal is to keep growing as a developer and create solutions that are useful, efficient, and impactful."
   ],
 };
 
