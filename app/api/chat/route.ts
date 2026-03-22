@@ -18,7 +18,7 @@ Email: ${profile.email}
 Tech Stack:
 - Frontend: ${techStack.Frontend.join(", ")}
 - Backend: ${techStack.Backend.join(", ")}
-- Tools: ${techStack.Tools.join(", ")}
+- Database & Tools: ${techStack["Database & Tools"].join(", ")}
 
 Experience:
 ${experience.map(e => `- ${e.title} at ${e.company} (${e.year})`).join("\n")}

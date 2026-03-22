@@ -27,8 +27,8 @@ export const profile = {
 
 export const techStack = {
   Frontend: ["Vue.js", "Quasar", "TypeScript", "JavaScript", "Alpine.js", "Tailwind CSS", "Next.js", "React"],
-  Backend: ["PHP", "Laravel", "Python", "PostgreSQL", "MSSQL", "MySQL"],
-  Tools: ["Docker", "GitHub Actions", "Git", "VS Code", "Cursor"],
+  Backend: ["PHP", "Laravel", "Python"],
+  "Database & Tools": ["PostgreSQL", "MSSQL", "MySQL", "Docker", "GitHub Actions", "Git", "VS Code", "Cursor"],
 };
 
 export const experience = [
@@ -67,6 +67,33 @@ export const certifications = [
     date: "Ongoing",
     link: "#",
   },
+  {
+    name: "Ongoing",
+    issuer: "Ongoing",
+    date: "Ongoing",
+    link: "#",
+  },
+];
+
+export const gallery = [
+  {
+    image: "/gallery1.jpg",
+  },
+  {
+    image: "/gallery2.jpg",
+  },
+  {
+    image: "/gallery3.jpg",
+  },
+  {
+    image: "/gallery4.jpg",
+  },
+  {
+    image: "/gallery5.jpg",
+  },
+  {
+    image: "/gallery6.jpg",
+  },
 ];
 
 export const whatIBuild = [
@@ -91,27 +118,6 @@ export const whatIBuild = [
     desc: "Machine learning–powered analytics and intelligent data-driven features.",
   },
 ];
-
-export const currentlyLearning = [
-  { 
-    topic: "System Architecture & Design Patterns", 
-    detail: "Scalable application architecture, clean code principles, and domain-driven design." 
-  },
-  { 
-    topic: "Advanced API Security", 
-    detail: "JWT, OAuth2, rate limiting, and secure authentication strategies." 
-  },
-  { 
-    topic: "AI Model Deployment", 
-    detail: "Serving machine learning models via APIs and integrating them into production systems." 
-  },
-  { 
-    topic: "DevOps & CI/CD", 
-    detail: "Automated deployment pipelines and containerized environments with Docker." 
-  },
-];
-
-
 
 export const social = [
   { label: "LinkedIn", href: "https://linkedin.com" },

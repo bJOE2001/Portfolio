@@ -74,8 +74,8 @@ Most content is centralized in `data/portfolio.ts`:
 - `experience`
 - `projects`
 - `certifications`
+- `gallery`
 - `whatIBuild`
-- `currentlyLearning`
 - `social`
 
 To personalize the site:

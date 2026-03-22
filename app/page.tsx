@@ -2,8 +2,8 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Experience from "@/components/Experience";
 import RecentProjects from "@/components/RecentProjects";
-import WhatIBuild from "@/components/WhatIBuild";
-import CurrentlyLearning from "@/components/CurrentlyLearning";
+import TechStack from "@/components/TechStack";
+import Gallery from "@/components/Gallery";
 import RecentCertifications from "@/components/RecentCertifications";
 import { profile } from "@/data/portfolio";
 
@@ -24,10 +24,10 @@ export default function Home() {
           {/* ── RIGHT MAIN CONTENT ── */}
           <div className="flex-1 min-w-0 space-y-5">
             <Experience />
-            <WhatIBuild />
+            <TechStack />
             <RecentProjects />
             <RecentCertifications />
-            <CurrentlyLearning />
+            <Gallery />
 
           </div>
         </div>
