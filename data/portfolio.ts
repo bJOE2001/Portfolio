@@ -94,6 +94,9 @@ export const gallery = [
   {
     image: "/gallery6.jpg",
   },
+  {
+    image: "/gallery7.jpg",
+  },
 ];
 
 export const whatIBuild = [
