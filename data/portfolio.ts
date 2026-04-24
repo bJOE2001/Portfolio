@@ -32,8 +32,9 @@ export const techStack = {
 };
 
 export const experience = [
-  { title: "Programmer OJT", company: "City Government of Tagum", year: "2026" },
-  { title: "BS Information Technology", company: "Davao del Norte State College", year: "2026" },
+  { title: "Programmer", company: "City Government of Tagum", year: "April 2026 - Present" },
+  { title: "Programmer OJT", company: "City Government of Tagum", year: "February 2026 - Present" },
+  { title: "BS Information Technology", company: "Davao del Norte State College", year: "Expected Graduation: June 2026" },
   { title: "Hello World! 👋🏻", company: "Wrote my first line of code", year: "2022" },
 ];
 
@@ -46,10 +47,10 @@ export const projects = [
     tags: ["Laravel", "Tailwind CSS", "Alpine.js", "ML"],
   },
   {
-    name: "Leave Monitoring System",
-    description: "HR leave tracking with workflow automation & API integration",
+    name: "Leave Management System",
+    description: "HR leave management with workflow automation & API integration",
     url: "",
-    status: "ongoing",
+    status: "testing",
     tags: ["Quasar", "Laravel", "REST API"],
   },
 ];
