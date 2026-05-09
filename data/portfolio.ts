@@ -49,8 +49,8 @@ export const projects = [
   {
     name: "Leave Management System",
     description: "HR leave management with workflow automation & API integration",
-    url: "",
-    status: "testing",
+    url: "https://tagumcity.gov.ph/lms",
+    status: "live",
     tags: ["Quasar", "Laravel", "REST API"],
   },
 ];
