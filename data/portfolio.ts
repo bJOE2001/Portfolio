@@ -57,22 +57,32 @@ export const projects = [
 
 export const certifications = [
   {
-    name: "Ongoing",
-    issuer: "Ongoing",
-    date: "Ongoing",
-    link: "#",
+    name: "LibraSense: Smart Library Engagement and Management System",
+    issuer: "Davao del Norte State College",
+    date: "Apr 20, 2026",
+    image: "/Capstone project certificate from organization.jpg",
+    link: "/Capstone project certificate from organization.jpg",
   },
   {
-    name: "Ongoing",
-    issuer: "Ongoing",
-    date: "Ongoing",
-    link: "#",
+    name: "BINHI 2026 Research Presentation - LibraSense",
+    issuer: "Davao Oriental State University / DNSC",
+    date: "Jun 11, 2026",
+    image: "/Capstone project presentation from Binhi.jpg",
+    link: "/Capstone project presentation from Binhi.jpg",
   },
   {
-    name: "Ongoing",
-    issuer: "Ongoing",
-    date: "Ongoing",
-    link: "#",
+    name: "On-the-Job Training - Programmer (486 Hours)",
+    issuer: "CICTMO, City Government of Tagum",
+    date: "May 14, 2026",
+    image: "/OJT certificate(s) - completing 486 hours.jpg",
+    link: "/OJT certificate(s) - completing 486 hours.jpg",
+  },
+  {
+    name: "Introduction to Packet Tracer",
+    issuer: "Cisco Networking Academy",
+    date: "Jan 28, 2024",
+    image: "/Introduction_to_Packet_Tracer_certificate.jpg",
+    link: "/Introduction_to_Packet_Tracer_certificate.jpg",
   },
 ];
 
