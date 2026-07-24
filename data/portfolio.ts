@@ -28,13 +28,13 @@ export const profile = {
 export const techStack = {
   Frontend: ["Vue.js", "Quasar", "TypeScript", "JavaScript", "Alpine.js", "Tailwind CSS", "Next.js", "React"],
   Backend: ["PHP", "Laravel", "Python"],
-  "Database & Tools": ["PostgreSQL", "MSSQL", "MySQL", "Docker", "GitHub Actions", "Git", "VS Code", "Cursor"],
+  "Database & Tools": ["PostgreSQL", "SQL Server", "MySQL", "Docker", "GitHub Actions", "Git", "VS Code", "Cursor", "Postman", "Figma", "Claude Code", "Codex", "Antigravity"],
 };
 
 export const experience = [
-  { title: "Programmer", company: "City Government of Tagum", year: "April 2026 - Present" },
-  { title: "Programmer OJT", company: "City Government of Tagum", year: "February 2026 - Present" },
-  { title: "BS Information Technology", company: "Davao del Norte State College", year: "Expected Graduation: June 2026" },
+  { title: "Web Developer", company: "City Government of Tagum", year: "April 2026 - Present" },
+  { title: "Programmer Intern", company: "City Government of Tagum", year: "February 2026 - May 2026" },
+  { title: "BS Information Technology", company: "Davao del Norte State College", year: "June 2026" },
   { title: "Hello World! 👋🏻", company: "Wrote my first line of code", year: "2022" },
 ];
 
