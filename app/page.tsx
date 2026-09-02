@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Experience from "@/components/Experience";
 import RecentProjects from "@/components/RecentProjects";
+import GithubContributions from "@/components/GithubContributions";
 import TechStack from "@/components/TechStack";
 import Gallery from "@/components/Gallery";
 import RecentCertifications from "@/components/RecentCertifications";
@@ -26,6 +27,7 @@ export default function Home() {
             <Experience />
             <TechStack />
             <RecentProjects />
+            <GithubContributions />
             <RecentCertifications />
             <Gallery />
 

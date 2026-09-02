@@ -11,6 +11,7 @@ import { profile } from "@/data/portfolio";
 const navLinks = [
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Activity", href: "#contributions" },
   { label: "Contact", href: `mailto:${profile.email}` },
 ];
 

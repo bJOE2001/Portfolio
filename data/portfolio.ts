@@ -18,6 +18,7 @@ export const profile = {
   email: "basadre.bellyjoe@gmail.com",
   callLink: "https://calendly.com/basadre-bellyjoe/30min",
   facebookLink: "https://www.facebook.com/bellyjoe.official",
+  githubUsername: "bJOE2001",
   bio: [
     "I’m a responsible and hardworking aspiring Full-Stack Developer who enjoys building practical and meaningful web applications. I’m always eager to learn new technologies, improve my skills, and grow through real-world experience.",
     "I focus on writing clean and reliable code, making sure every project is done carefully and on time. I like solving problems, taking on challenges, and continuously improving how I build systems.",
@@ -39,6 +40,20 @@ export const experience = [
 ];
 
 export const projects = [
+  {
+    name: "NLIGW Carmen",
+    description: "Official church platform featuring sermons, ministries, event management, and discipleship pathway",
+    url: "newlifecarmen.vercel.app",
+    status: "live",
+    tags: ["Next.js", "Tailwind CSS", "TypeScript", "Sanity CMS"],
+  },
+  {
+    name: "New Life — SOL ChMS",
+    description: "School of Leaders church management and discipleship lifecycle tracking system",
+    url: "newlifecarmen.vercel.app/sol",
+    status: "live",
+    tags: ["React", "Tailwind CSS", "TypeScript", "Vite"],
+  },
   {
     name: "Librasense",
     description: "Library Management System with ML-powered analytics",

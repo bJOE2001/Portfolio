@@ -22,6 +22,14 @@ export default function RecentProjects() {
         {projects.map((project, i) => {
           const isOngoing = project.status === "ongoing";
           const hasUrl = !!project.url;
+          const projectHref = hasUrl
+            ? project.url.startsWith("http")
+              ? project.url
+              : `https://${project.url}`
+            : "#";
+          const displayUrl = hasUrl
+            ? project.url.replace(/^https?:\/\//, "")
+            : "";
 
           return (
             <motion.div
@@ -52,7 +60,7 @@ export default function RecentProjects() {
                       )}
                       {hasUrl && !isOngoing && (
                         <span className="font-mono text-[10px] text-[var(--text-light)] bg-[var(--accent-light)] px-1.5 py-0.5 rounded border border-[var(--border)]">
-                          {project.url}
+                          {displayUrl}
                         </span>
                       )}
                     </div>
@@ -69,7 +77,7 @@ export default function RecentProjects() {
                     {/* Mobile external link */}
                     {hasUrl && (
                       <a
-                        href={`https://${project.url}`}
+                        href={projectHref}
                         target="_blank"
                         rel="noreferrer"
                         className="mt-2 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-text)] hover:underline sm:hidden"
@@ -84,7 +92,7 @@ export default function RecentProjects() {
                 {/* Desktop / tablet external link */}
                 {hasUrl && (
                   <a
-                    href={`https://${project.url}`}
+                    href={projectHref}
                     target="_blank"
                     rel="noreferrer"
                     className="hidden sm:inline-flex self-auto p-1.5 rounded-lg hover:bg-[var(--accent-light)] text-[var(--text-light)] hover:text-[var(--text)] transition-colors shrink-0 mt-0.5"
