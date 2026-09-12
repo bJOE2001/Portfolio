@@ -18,41 +18,30 @@ export default function Gallery() {
 
   function getScrollStep(node: HTMLDivElement) {
     const firstCard = node.querySelector<HTMLElement>("[data-gallery-card='true']");
-    const gapValue = window.getComputedStyle(node).gap || "0";
-    const gap = Number.parseFloat(gapValue) || 0;
-
-    return firstCard ? firstCard.offsetWidth + gap : node.clientWidth * 0.85;
+    const gap = 16;
+    return firstCard ? firstCard.offsetWidth + gap : node.clientWidth * 0.8;
   }
 
   function updateScrollState() {
     const node = scrollRef.current;
-
-    if (!node) {
-      return;
-    }
+    if (!node) return;
 
     const maxScrollLeft = node.scrollWidth - node.clientWidth;
     const step = getScrollStep(node);
 
-    setCanScrollLeft(node.scrollLeft > 4);
-    setCanScrollRight(node.scrollLeft < maxScrollLeft - 4);
+    setCanScrollLeft(node.scrollLeft > 6);
+    setCanScrollRight(node.scrollLeft < maxScrollLeft - 6);
     setActiveIndex(
       Math.max(0, Math.min(galleryItems.length - 1, Math.round(node.scrollLeft / step)))
     );
   }
 
-  function scrollToIndex(index: number) {
+  function scroll(direction: "left" | "right") {
     const node = scrollRef.current;
-
-    if (!node) {
-      return;
-    }
-
-    const targetIndex = Math.max(0, Math.min(galleryItems.length - 1, index));
-    const scrollAmount = getScrollStep(node);
-
-    node.scrollTo({
-      left: targetIndex * scrollAmount,
+    if (!node) return;
+    const amount = getScrollStep(node) * 1.5;
+    node.scrollBy({
+      left: direction === "left" ? -amount : amount,
       behavior: "smooth",
     });
   }
@@ -65,29 +54,15 @@ export default function Gallery() {
     setLightboxIndex(null);
   }
 
-  function showPreviousLightboxImage() {
-    setLightboxIndex((current) => {
-      if (current === null) {
-        return current;
-      }
-
-      return Math.max(0, current - 1);
-    });
+  function showPrevious() {
+    setLightboxIndex((curr) => (curr !== null ? Math.max(0, curr - 1) : null));
   }
 
-  function showNextLightboxImage() {
-    setLightboxIndex((current) => {
-      if (current === null) {
-        return current;
-      }
-
-      return Math.min(galleryItems.length - 1, current + 1);
-    });
+  function showNext() {
+    setLightboxIndex((curr) =>
+      curr !== null ? Math.min(galleryItems.length - 1, curr + 1) : null
+    );
   }
-
-  const canShowPreviousLightboxImage = lightboxIndex !== null && lightboxIndex > 0;
-  const canShowNextLightboxImage =
-    lightboxIndex !== null && lightboxIndex < galleryItems.length - 1;
 
   useEffect(() => {
     setMounted(true);
@@ -95,13 +70,9 @@ export default function Gallery() {
 
   useEffect(() => {
     const node = scrollRef.current;
-
-    if (!node) {
-      return;
-    }
+    if (!node) return;
 
     updateScrollState();
-
     const handleResize = () => updateScrollState();
     const handleScroll = () => updateScrollState();
 
@@ -115,202 +86,177 @@ export default function Gallery() {
   }, []);
 
   useEffect(() => {
-    if (lightboxIndex === null) {
-      return;
-    }
+    if (lightboxIndex === null) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeLightbox();
-      }
-
-      if (event.key === "ArrowLeft" && canShowPreviousLightboxImage) {
-        showPreviousLightboxImage();
-      }
-
-      if (event.key === "ArrowRight" && canShowNextLightboxImage) {
-        showNextLightboxImage();
-      }
+      if (event.key === "Escape") closeLightbox();
+      if (event.key === "ArrowLeft") showPrevious();
+      if (event.key === "ArrowRight") showNext();
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [lightboxIndex, canShowPreviousLightboxImage, canShowNextLightboxImage]);
+  }, [lightboxIndex]);
 
   return (
-    <>
-      <motion.section
-        className="card p-5"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-      >
-        <div className="mb-4 flex items-center justify-between">
-          <p className="section-label mb-0">Gallery</p>
-
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[var(--text-light)]">
-              {activeIndex + 1} / {galleryItems.length}
-            </span>
-
-            <div className="flex items-center gap-1">
-              <button
-                type="button"
-                aria-label="Previous gallery image"
-                onClick={() => scrollToIndex(activeIndex - 1)}
-                disabled={!canScrollLeft}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] transition-colors hover:bg-[var(--accent-light)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border)] disabled:cursor-not-allowed disabled:opacity-35"
-              >
-                <ChevronLeft size={15} />
-              </button>
-
-              <button
-                type="button"
-                aria-label="Next gallery image"
-                onClick={() => scrollToIndex(activeIndex + 1)}
-                disabled={!canScrollRight}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--card)] text-[var(--text)] transition-colors hover:bg-[var(--accent-light)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border)] disabled:cursor-not-allowed disabled:opacity-35"
-              >
-                <ChevronRight size={15} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-1 no-scrollbar scroll-smooth"
-          >
-            {galleryItems.map((item, i) => (
-              <button
-                key={`${item.image}-${i}`}
-                type="button"
-                data-gallery-card="true"
-                onClick={() => openLightbox(i)}
-                aria-label={`Open gallery image ${i + 1}`}
-                className="group snap-start relative w-[132px] shrink-0 overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--accent-light)] shadow-[0_1px_3px_rgba(15,23,42,0.04)] transition-shadow duration-200 ease-out hover:shadow-[0_8px_20px_rgba(15,23,42,0.08)] sm:w-[144px] md:w-[calc((100%-2.25rem)/4)] md:min-w-[calc((100%-2.25rem)/4)]"
-              >
-                <div className="relative h-[112px] overflow-hidden bg-[var(--card)] sm:h-[122px] lg:h-[132px]">
-                  <Image
-                    src={item.image}
-                    alt={`Gallery image ${i + 1}`}
-                    fill
-                    sizes="(max-width: 640px) 132px, (max-width: 768px) 144px, 25vw"
-                    className="object-cover transition-[transform,filter] duration-500 ease-out group-hover:scale-[1.04] group-hover:brightness-[1.03] group-hover:saturate-110"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/[0.03]" />
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-1.5">
-            {galleryItems.map((item, index) => (
-              <button
-                key={`${item.image}-${index}`}
-                type="button"
-                aria-label={`Go to gallery image ${index + 1}`}
-                onClick={() => scrollToIndex(index)}
-                className={`h-1.5 rounded-full transition-all ${
-                  index === activeIndex
-                    ? "w-5 bg-[var(--text)]"
-                    : "w-1.5 bg-[var(--border)] hover:bg-[var(--text-light)]"
-                }`}
-              />
-            ))}
-          </div>
-
-          <p className="text-[10px] text-[var(--text-light)]">
-            Click an image to open the gallery
+    <section className="py-16 sm:py-24 border-b border-border">
+      {/* Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+        <div className="space-y-3">
+          <p className="text-xs font-mono uppercase tracking-[0.25em] text-muted">
+            06 / BEYOND THE CODE
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            A few moments.
+          </h2>
+          <p className="text-sm text-muted max-w-xl leading-relaxed">
+            Snapshots from academic research presentations, system deployments, technical milestones, and collaborative builds.
           </p>
         </div>
-      </motion.section>
 
+        {/* Carousel Navigation Arrows */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => scroll("left")}
+            disabled={!canScrollLeft}
+            aria-label="Scroll left"
+            className="p-2 rounded-md border border-border bg-surface text-foreground hover:bg-surface-hover transition-colors disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={() => scroll("right")}
+            disabled={!canScrollRight}
+            aria-label="Scroll right"
+            className="p-2 rounded-md border border-border bg-surface text-foreground hover:bg-surface-hover transition-colors disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Horizontal Strip */}
+      <div
+        ref={scrollRef}
+        className="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-5 px-5 sm:-mx-8 sm:px-8 snap-x snap-mandatory"
+      >
+        {galleryItems.map((item, index) => (
+          <motion.div
+            key={item.image + index}
+            data-gallery-card="true"
+            onClick={() => openLightbox(index)}
+            className="group relative shrink-0 w-72 sm:w-80 h-52 sm:h-56 rounded-xl overflow-hidden border border-border bg-surface cursor-pointer snap-start"
+          >
+            <Image
+              src={item.image}
+              alt={item.caption || `Moment ${index + 1}`}
+              fill
+              sizes="(max-width: 640px) 288px, 320px"
+              className="object-cover grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-500 ease-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+              <p className="text-white text-xs font-medium leading-snug line-clamp-2">
+                {item.caption || `Photo ${index + 1}`}
+              </p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Lightbox Modal */}
       {mounted &&
         createPortal(
           <AnimatePresence>
             {lightboxIndex !== null && (
               <>
+                {/* Backdrop */}
                 <motion.div
-                  key="gallery-backdrop"
+                  key="lightbox-backdrop"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="fixed inset-0 z-[9998] bg-black/85 backdrop-blur-sm"
+                  className="fixed inset-0 z-[10001] bg-black/90 backdrop-blur-md"
                   onClick={closeLightbox}
                 />
 
+                {/* Modal Viewport */}
                 <motion.div
-                  key="gallery-lightbox"
+                  key="lightbox-modal"
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
-                  className="fixed inset-0 z-[9999] p-4"
+                  transition={{ duration: 0.2 }}
+                  className="fixed inset-0 z-[10002] p-4 sm:p-8 flex flex-col justify-between pointer-events-none"
                 >
-                  <div className="relative flex h-full w-full items-center justify-center">
-                    <div className="absolute left-0 top-0 rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white">
+                  {/* Top Bar */}
+                  <div className="flex items-center justify-between text-white pointer-events-auto max-w-4xl mx-auto w-full">
+                    <span className="text-xs font-mono text-white/60">
                       {lightboxIndex + 1} / {galleryItems.length}
-                    </div>
-
+                    </span>
                     <button
                       type="button"
-                      aria-label="Close gallery"
                       onClick={closeLightbox}
-                      className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-md bg-white/10 text-white transition-colors hover:bg-white/20"
+                      aria-label="Close lightbox"
+                      className="p-2 rounded-lg bg-white/10 hover:bg-white/20 text-white transition-colors"
                     >
-                      <X size={20} />
+                      <X size={18} />
                     </button>
+                  </div>
 
-                    <button
-                      type="button"
-                      aria-label="Previous image"
-                      onClick={showPreviousLightboxImage}
-                      disabled={!canShowPreviousLightboxImage}
-                      className="absolute left-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md bg-white/10 text-white transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
-                    >
-                      <ChevronLeft size={24} />
-                    </button>
+                  {/* Main Image */}
+                  <div className="flex-1 flex items-center justify-center p-2 relative pointer-events-auto">
+                    {lightboxIndex > 0 && (
+                      <button
+                        type="button"
+                        onClick={showPrevious}
+                        aria-label="Previous image"
+                        className="absolute left-2 sm:left-6 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                      >
+                        <ChevronLeft size={20} />
+                      </button>
+                    )}
 
-                    <div
-                      className="relative h-full max-h-[82vh] w-full max-w-4xl"
-                      onClick={(event) => event.stopPropagation()}
-                    >
+                    <div className="relative max-w-4xl max-h-[75vh] w-full h-[65vh]">
                       <Image
                         src={galleryItems[lightboxIndex].image}
-                        alt={`Gallery image ${lightboxIndex + 1}`}
+                        alt={galleryItems[lightboxIndex].caption || "Gallery preview"}
                         fill
-                        sizes="90vw"
+                        className="object-contain drop-shadow-2xl"
                         priority
-                        className="object-contain"
                       />
                     </div>
 
-                    <button
-                      type="button"
-                      aria-label="Next image"
-                      onClick={showNextLightboxImage}
-                      disabled={!canShowNextLightboxImage}
-                      className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md bg-white/10 text-white transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-30"
-                    >
-                      <ChevronRight size={24} />
-                    </button>
+                    {lightboxIndex < galleryItems.length - 1 && (
+                      <button
+                        type="button"
+                        onClick={showNext}
+                        aria-label="Next image"
+                        className="absolute right-2 sm:right-6 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                      >
+                        <ChevronRight size={20} />
+                      </button>
+                    )}
+                  </div>
 
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-md bg-white/10 px-3 py-2 text-xs text-white/85">
-                      Use arrow keys to navigate • ESC to close
-                    </div>
+                  {/* Caption & Controls */}
+                  <div className="text-center pointer-events-auto max-w-xl mx-auto">
+                    {galleryItems[lightboxIndex].caption && (
+                      <p className="text-white/80 text-xs sm:text-sm font-medium mb-1">
+                        {galleryItems[lightboxIndex].caption}
+                      </p>
+                    )}
+                    <span className="text-[10px] font-mono text-white/40">
+                      Use Arrow keys to navigate · Esc to close
+                    </span>
                   </div>
                 </motion.div>
               </>
@@ -318,6 +264,6 @@ export default function Gallery() {
           </AnimatePresence>,
           document.body
         )}
-    </>
+    </section>
   );
 }

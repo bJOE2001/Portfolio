@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { profile, techStack, experience, projects, whatIBuild } from "@/data/portfolio";
+import { profile, techStack, experience, projects, certifications } from "@/data/portfolio";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
@@ -16,9 +16,7 @@ Location: ${profile.location}
 Email: ${profile.email}
 
 Tech Stack:
-- Frontend: ${techStack.Frontend.join(", ")}
-- Backend: ${techStack.Backend.join(", ")}
-- Database & Tools: ${techStack["Database & Tools"].join(", ")}
+${Object.entries(techStack).map(([cat, skills]) => `- ${cat}: ${skills.join(", ")}`).join("\n")}
 
 Experience:
 ${experience.map(e => `- ${e.title} at ${e.company} (${e.year})`).join("\n")}
@@ -26,8 +24,8 @@ ${experience.map(e => `- ${e.title} at ${e.company} (${e.year})`).join("\n")}
 Projects (summarized):
 ${projects.map(p => `- ${p.name}: ${p.description}`).join("\n")}
 
-What Belly Joe builds:
-${whatIBuild.map(w => `- ${w.title}: ${w.desc}`).join("\n")}
+Certifications & Achievements:
+${certifications.map(c => `- ${c.name} (${c.issuer}, ${c.date})`).join("\n")}
 
 Guidelines:
 1. Don't use heavy markdown unless necessary (e.g., bullet points are okay).

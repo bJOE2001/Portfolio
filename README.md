@@ -1,23 +1,30 @@
-﻿# Portfolio
+# Portfolio
 
-Personal portfolio web app built with Next.js, Tailwind CSS, and a Gemini-powered chat assistant.
+Personal portfolio web app built with Next.js 14, Tailwind CSS, and a Gemini-powered AI chat assistant.
 
 ## Features
 
-- Responsive portfolio layout with sidebar and content sections
-- Theme switching (light/dark/system) via `next-themes`
-- Data-driven profile, projects, experience, and skills
-- AI chat widget that answers using your portfolio data
-- Streaming chatbot responses from `/api/chat`
+- **Single-Story Editorial Architecture**: Replaces cramped sidebars with a fluid, recruiter-friendly single-story narrative
+- **Editorial Hero Section**: Bold typography, live project availability status, credential ticker, and integrated personality avatar (day/hover/dark-mode animations)
+- **Selected Work Showcase**: Dominant hero case study (**LibraSense**) plus a balanced 2-column secondary project grid (**Leave Management System**, **NLIGW Carmen**, **Selah**, **SOL ChMS**)
+- **Experience Timeline**: Asymmetric 2-column career and education milestones with subtle hover physics
+- **Capabilities Grid**: Typography-first 4-column domain breakdown (Frontend, Backend, Data/Infra, AI/Tools) avoiding messy badge walls
+- **Proof & Credentials**: Recognition list (Capstone CICTMO Acceptance, BINHI Research, CICTMO OJT) with high-resolution certificate lightbox & zoom
+- **Activity Stream**: Interactive GitHub commit calendar with year filtering (2026 down to 2023) and hover tooltips
+- **Beyond the Code Gallery**: Photographic moment strip with smooth carousel controls and full-screen lightbox modal
+- **High-Conversion Contact CTA**: Dedicated closing section featuring direct email and social channels
+- **AI Assistant**: Redesigned Gemini-powered assistant (`gemini-3-flash-preview`) with real-time text streaming, suggestion prompts, and slide-over drawer
+- **Theme System**: Minimalist Swiss/Vercel styling with seamless dark/light mode toggle via `next-themes` and CSS variables
 
 ## Tech Stack
 
-- Next.js 14 (App Router)
-- React 18 + TypeScript
-- Tailwind CSS
-- Framer Motion
-- `@google/generative-ai`
-- `lucide-react`
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript + React 18
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Theming**: `next-themes`
+- **AI**: `@google/generative-ai` (Gemini API)
 
 ## Getting Started
 
@@ -34,10 +41,6 @@ Create a `.env.local` file in the project root:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
-
-Important:
-- Keep API keys private.
-- Do not commit real keys to Git.
 
 ### 3. Run the development server
 
@@ -58,45 +61,58 @@ Open `http://localhost:3000`.
 
 ```text
 app/
-  api/chat/route.ts     # Gemini-backed chatbot API route
-  layout.tsx            # Root layout, metadata, theme provider, chatbot mount
-  page.tsx              # Main portfolio page
-components/             # UI sections and shared components
-data/portfolio.ts       # Main content source (profile, projects, stack, etc.)
-public/                 # Static assets (profile and other images)
+  api/
+    chat/route.ts                 # Gemini-backed chatbot API streaming route
+    github-contributions/route.ts # GitHub contributions fetcher proxy route
+  globals.css                     # Swiss/Vercel design system tokens and styles
+  layout.tsx                      # Root layout, SEO metadata, theme provider & global mounts
+  page.tsx                        # Main portfolio page with single-story narrative
+components/
+  Chatbot.tsx                     # Slide-over Gemini AI assistant widget
+  Experience.tsx                  # Career & education editorial timeline
+  Gallery.tsx                     # Beyond the Code photographic carousel with lightbox
+  GithubContributions.tsx         # Interactive GitHub activity graph with year tabs
+  Navbar.tsx                      # Sticky top header with scroll blur & theme toggle
+  RecentCertifications.tsx        # Proof section with certificate modal viewer & zoom
+  TechStack.tsx                   # Typography-first 4-column capabilities grid
+  ThemeProvider.tsx               # next-themes provider wrapper
+  contact/
+    ContactCTA.tsx                # High-conversion closing banner
+  hero/
+    Hero.tsx                      # Editorial hero with avatar personality & credibility ticker
+  layout/
+    Footer.tsx                    # Minimalist footer with smooth back-to-top
+    ScrollProgress.tsx            # Fixed top 2px scroll progress bar
+  profile/
+    InteractiveProfileImage.tsx   # "Developer State" interactive avatar with 3D tilt & crossfade
+  projects/
+    Projects.tsx                  # Dominant featured project + secondary project grid
+data/
+  types.ts                        # TypeScript interfaces
+  profile.ts                      # Identity, bio, credentials, avatars, and contact links
+  projects.ts                     # Featured and secondary project definitions
+  experience.ts                   # Career history and educational milestones
+  capabilities.ts                 # Categorized engineering skills
+  certifications.ts               # Credentials and certificate assets
+  gallery.ts                      # Moments photos and captions
+  portfolio.ts                    # Central re-export hub for backward compatibility
+public/                           # Static assets (avatars, certificates, gallery photos)
 ```
 
 ## Customization
 
-Most content is centralized in `data/portfolio.ts`:
-- `profile`
-- `techStack`
-- `experience`
-- `projects`
-- `certifications`
-- `gallery`
-- `whatIBuild`
-- `social`
+All portfolio content is centralized in modular files under `data/`:
 
-To personalize the site:
-- Edit text/data in `data/portfolio.ts`
-- Replace images inside `public/`
-- Update component styles in `components/` and `app/globals.css`
+- `data/profile.ts` - Bio, availability status, credentials, avatar images, social channels
+- `data/projects.ts` - Case studies, tags, external URLs, architectural notes
+- `data/experience.ts` - Employment history, internships, and education
+- `data/capabilities.ts` - Categorized technologies and developer tools
+- `data/certifications.ts` - Awards, presentation honors, and certificate previews
+- `data/gallery.ts` - Behind-the-scenes photography and descriptions
 
 ## Chatbot Notes
 
-- Frontend chat UI: `components/Chatbot.tsx`
-- Backend route: `app/api/chat/route.ts`
-- If `GEMINI_API_KEY` is missing, chat requests return an error response
-- Chatbot context is built from `data/portfolio.ts`
-
-## Production
-
-Build and run locally:
-
-```bash
-npm run build
-npm run start
-```
-
-When deploying (for example to Vercel), set `GEMINI_API_KEY` in the hosting environment variables.
+- Frontend chat widget: `components/Chatbot.tsx`
+- Backend streaming endpoint: `app/api/chat/route.ts`
+- Persona context is fed directly from the modular data layer
+- When deploying to production (e.g., Vercel), add `GEMINI_API_KEY` to your hosting environment variables.
