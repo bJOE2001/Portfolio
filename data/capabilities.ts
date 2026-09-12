@@ -28,6 +28,7 @@ export const capabilities = {
     "Linux",
   ],
   "AI / Developer Tools": [
+    "Prompt Engineering",
     "Git",
     "GitHub Actions",
     "Cursor",

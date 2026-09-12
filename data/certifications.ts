@@ -2,13 +2,13 @@ import { Certification } from "./types";
 
 export const certifications: Certification[] = [
   {
-    name: "Capstone Completion & User Acceptability — LibraSense",
-    issuer: "City Government of Tagum / CICTMO & DNSC",
-    date: "April 20, 2026",
+    name: "Prompt Like an Engineer",
+    issuer: "Cisco Networking Academy · DICT-ITU DTC Initiative",
+    date: "September 03, 2026",
     year: "2026",
-    highlight: "System Acceptance",
-    image: "/Capstone project certificate from organization.jpg",
-    link: "/Capstone project certificate from organization.jpg",
+    highlight: "AI & Prompt Engineering",
+    image: "/Prompt_Like_an_Engineer_certificate.jpg",
+    link: "/Prompt_Like_an_Engineer_certificate.jpg",
   },
   {
     name: "BINHI 2026 Research Presentation — LibraSense",
@@ -27,6 +27,15 @@ export const certifications: Certification[] = [
     highlight: "Government Internship",
     image: "/OJT certificate(s) - completing 486 hours.jpg",
     link: "/OJT certificate(s) - completing 486 hours.jpg",
+  },
+  {
+    name: "Capstone Completion & User Acceptability — LibraSense",
+    issuer: "City Government of Tagum / CICTMO & DNSC",
+    date: "April 20, 2026",
+    year: "2026",
+    highlight: "System Acceptance",
+    image: "/Capstone project certificate from organization.jpg",
+    link: "/Capstone project certificate from organization.jpg",
   },
   {
     name: "Introduction to Packet Tracer",

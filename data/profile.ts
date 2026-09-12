@@ -23,6 +23,7 @@ export const profile: Profile = {
   credentials: [
     "Web Developer at City Government of Tagum",
     "BS Information Technology — DNSC",
+    "Prompt Like an Engineer — Cisco / DICT-ITU",
     "Capstone Project — LibraSense (Accepted by CICTMO)",
     "BINHI Research Presenter",
   ],
