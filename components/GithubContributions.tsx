@@ -62,6 +62,7 @@ export default function GithubContributions() {
 
   useEffect(() => {
     fetchContributions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   const sortedContributions = useMemo(() => {

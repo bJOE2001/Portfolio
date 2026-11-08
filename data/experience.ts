@@ -8,8 +8,9 @@ export const experience: ExperienceItem[] = [
     year: "2026",
     period: "April 2026 — Present",
     isCurrent: true,
+    technologies: ["Laravel", "Vue.js", "Quasar Framework", "SQL Server"],
     description:
-      "Developing and maintaining municipal government web applications, internal automation portals, and employee information management systems.",
+      "Developing and maintaining municipal web applications, internal workflow automation portals, and administrative information management systems.",
   },
   {
     title: "Programmer Intern",
@@ -17,17 +18,19 @@ export const experience: ExperienceItem[] = [
     location: "Tagum City, Davao del Norte",
     year: "2026",
     period: "February 2026 — May 2026",
+    technologies: ["Laravel", "Vue.js", "Quasar Framework", "REST APIs"],
     description:
-      "Completed 486 hours of intensive engineering internship developing enterprise full-stack modules, database integrations, and UI components.",
+      "Completed 486 hours of software development internship building full-stack application modules, database integrations, and administrative UI components.",
   },
   {
-    title: "WordPress Web Developer",
-    company: "Freelance Client (via OnlineJobs.ph)",
+    title: "WordPress Content Writer / Content Management",
+    company: "Freelance (via OnlineJobs.ph)",
     location: "Remote",
-    year: "2023",
+    year: "2023 — 2024",
     period: "July 2023 — February 2024",
+    technologies: ["WordPress CMS", "Content Publishing", "Content Organization"],
     description:
-      "Customized themes, built custom PHP post types and responsive templates, and optimized page speed and SEO for international web clients.",
+      "Worked remotely on WordPress-based content publishing and management activities, gaining experience with website content organization and CMS workflows.",
   },
   {
     title: "BS in Information Technology",
@@ -36,13 +39,6 @@ export const experience: ExperienceItem[] = [
     year: "2022 — 2026",
     period: "2022 — 2026",
     description:
-      "Graduated with Bachelor of Science in Information Technology. Developed capstone system LibraSense (accepted by Tagum City CICTMO) and selected research presenter for BINHI 2026 Research Conference.",
-  },
-  {
-    title: "First Line of Code",
-    company: "Hello World! 👋🏻",
-    year: "2022",
-    period: "2022",
-    description: "Began journey into computer science, foundational algorithms, and web development.",
+      "Bachelor of Science in Information Technology. Developed the LibraSense smart library capstone system and presented research at BINHI 2026.",
   },
 ];

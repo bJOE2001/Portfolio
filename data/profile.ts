@@ -2,8 +2,34 @@ import { Profile } from "./types";
 
 export const profile: Profile = {
   name: "Belly Joe Basadre",
+  eyebrow: "FULL-STACK DEVELOPER",
+  headline: "Building web applications that solve real-world problems.",
+  heroDescriptions: [
+    "I help businesses and organizations build reliable web applications, automate workflows, and turn ideas into functional digital solutions.",
+    "Specializing in Laravel, Vue.js, Quasar, React, and database-driven systems, I combine practical software engineering with AI-assisted development to deliver maintainable applications.",
+  ],
+  heroStats: [
+    {
+      label: "Specialization",
+      value: "Full-Stack Development",
+    },
+    {
+      label: "Core Stack",
+      value: "Laravel · Vue · React",
+    },
+    {
+      label: "Workflow",
+      value: "AI-Assisted Development",
+    },
+    {
+      label: "Availability",
+      value: "Open for Projects",
+      highlightDot: true,
+    },
+  ],
   seoTitle: "Belly Joe Basadre — Full-Stack Developer",
-  seoDescription: "Full-stack developer building modern web applications, enterprise systems, and digital products with Next.js, Laravel, TypeScript, and modern web technologies.",
+  seoDescription:
+    "Full-Stack Developer in the Philippines helping businesses and organizations build custom web applications, management systems, workflow automation, and REST APIs with Laravel, Vue.js, Quasar, and React.",
   navbarLogo: {
     start: "bellyjoe",
     accent: ".",
@@ -14,34 +40,33 @@ export const profile: Profile = {
   avatarHoverUrl: "/thumbsup.png",
   darkAvatarUrl: "/sleeping.png",
   darkAvatarHoverUrl: "/sleepinghover.png",
-  location: "Carmen, Davao del Norte, Philippines",
+  location: "Davao del Norte, Philippines",
+  shortLocation: "Philippines",
   roles: ["Full-Stack Developer"],
   availability: {
     status: true,
-    label: "Available for select projects",
+    label: "Available for select freelance projects and long-term remote collaborations.",
+    shortLabel: "Open for Projects",
+    contactNote: "Available for select freelance projects and remote collaborations.",
   },
   credentials: [
-    "Web Developer at City Government of Tagum",
-    "BS Information Technology — DNSC",
-    "Prompt Like an Engineer — Cisco / DICT-ITU",
-    "Capstone Project — LibraSense (Accepted by CICTMO)",
-    "BINHI Research Presenter",
+    "Full-Stack Web Application & System Development",
+    "BS Information Technology — Davao del Norte State College",
+    "BINHI 2026 Research Presenter — LibraSense",
+    "Prompt Like an Engineer — Cisco Networking Academy",
   ],
   award: "BINHI 2026 Research Presenter",
   email: "basadre.bellyjoe@gmail.com",
   callLink: "https://calendly.com/basadre-bellyjoe/30min",
-  facebookLink: "https://www.facebook.com/bellyjoe.official",
   githubUsername: "bJOE2001",
   bio: [
-    "I'm a responsible and hardworking Full-Stack Developer who builds practical, resilient, and meaningful web applications. Currently serving as a Web Developer for the City Government of Tagum, I specialize in end-to-end web architectures, automated workflows, and data-driven systems.",
-    "My focus is on engineering clean, maintainable codebases with intentional UI/UX design. From municipal HR portals to ML-backed library management systems, I enjoy turning complex operational challenges into dependable software.",
-    "Driven by continuous learning and pragmatic engineering, my goal is to deliver digital solutions that are reliable, accessible, and high-impact.",
+    "I am a Full-Stack Developer based in the Philippines helping businesses and organizations build custom web applications, internal management systems, automated workflows, and API integrations.",
+    "My core stack centers on Laravel, PHP, Vue.js, Quasar Framework, React, TypeScript, Next.js, SQL Server, and PostgreSQL, paired with an engineer-driven AI-assisted workflow.",
+    "I focus on writing maintainable code, structuring reliable relational databases, and shipping software tailored to real operational needs.",
   ],
   social: [
     { label: "GitHub", href: "https://github.com/bJOE2001" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/bellyjoedev" },
-    { label: "Instagram", href: "https://www.instagram.com/itsmebellyj" },
-    { label: "Facebook", href: "https://www.facebook.com/bellyjoe.official" },
   ],
 };
 

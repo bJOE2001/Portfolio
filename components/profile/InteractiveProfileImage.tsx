@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -23,7 +24,7 @@ interface InteractiveProfileImageProps {
 export default function InteractiveProfileImage({
   className = "",
   showLocation = true,
-  location = profile.location || "Carmen, Davao del Norte",
+  location = profile.location || "Davao del Norte, Philippines",
   lightSrc = profile.avatarUrl || "/profile.jpg",
   lightHoverSrc = profile.avatarHoverUrl || "/thumbsup.png",
   darkSrc = profile.darkAvatarUrl || "/sleeping.png",
@@ -101,11 +102,11 @@ export default function InteractiveProfileImage({
   const currentMessage = isDark ? darkMessage : lightMessage;
 
   return (
-    <div className={`flex flex-col items-center lg:items-end ${className}`}>
+    <div className={`flex flex-col items-start sm:items-center lg:items-end ${className}`}>
       {/* ── Location Text Directly Above Image ── */}
       {showLocation && (
         <div className="mb-2.5 flex items-center gap-1.5 text-xs font-mono text-muted">
-          <MapPin size={11} className="text-subtle shrink-0" />
+          <MapPin size={11} className="text-subtle shrink-0" aria-hidden="true" />
           <span>{location}</span>
         </div>
       )}
@@ -126,7 +127,8 @@ export default function InteractiveProfileImage({
           }}
           tabIndex={0}
           role="button"
-          aria-label={`Profile portrait of ${profile.name}. Currently in ${currentLabel}: ${currentMessage}.`}
+          aria-pressed={isTapped}
+          aria-label={`Interactive portrait of ${profile.name}. Currently in ${currentLabel}: ${currentMessage}. Activate to toggle pose.`}
           style={{
             rotateX: prefersReducedMotion ? 0 : rotateX,
             rotateY: prefersReducedMotion ? 0 : rotateY,
@@ -137,27 +139,32 @@ export default function InteractiveProfileImage({
           whileHover={prefersReducedMotion ? {} : { scale: 1.02 }}
           whileTap={prefersReducedMotion ? {} : { scale: 0.99 }}
           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="group relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border border-border bg-surface shadow-sm hover:shadow-md hover:border-foreground/20 dark:hover:border-white/20 transition-all duration-350 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+          className="group relative w-44 h-44 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border border-border bg-surface shadow-sm hover:shadow-md hover:border-foreground/20 dark:hover:border-white/20 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          {/* ── Image Layers: Smooth 350ms Crossfade ── */}
+          {/* ── Image Layers: Smooth Crossfade ── */}
           <div className="relative h-full w-full pointer-events-none">
             {/* Light Mode Layer */}
             <div
-              className={`absolute inset-0 transition-opacity duration-350 ease-out ${
+              className={`absolute inset-0 transition-opacity duration-300 ease-out ${
                 !isDark ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
             >
-              <img
+              <Image
                 src={lightSrc}
-                alt={`${profile.name} — Professional Portrait`}
-                className={`h-full w-full object-cover transition-opacity duration-300 ${
+                alt={`${profile.name} — Full-Stack Developer portrait`}
+                fill
+                sizes="(max-width: 640px) 176px, 224px"
+                priority
+                className={`object-cover transition-opacity duration-300 ${
                   isInteractiveActive ? "opacity-0" : "opacity-100"
                 }`}
               />
-              <img
+              <Image
                 src={lightHoverSrc}
-                alt={`${profile.name} — Thumbs Up Pose`}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                alt={`${profile.name} — Thumbs up portrait`}
+                fill
+                sizes="(max-width: 640px) 176px, 224px"
+                className={`object-cover transition-opacity duration-300 ${
                   isInteractiveActive ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -165,21 +172,26 @@ export default function InteractiveProfileImage({
 
             {/* Dark Mode Layer */}
             <div
-              className={`absolute inset-0 transition-opacity duration-350 ease-out ${
+              className={`absolute inset-0 transition-opacity duration-300 ease-out ${
                 isDark ? "opacity-100" : "opacity-0 pointer-events-none"
               }`}
             >
-              <img
+              <Image
                 src={darkSrc}
-                alt={`${profile.name} — Dream Mode Resting`}
-                className={`h-full w-full object-cover transition-opacity duration-300 ${
+                alt={`${profile.name} — Rest mode illustration`}
+                fill
+                sizes="(max-width: 640px) 176px, 224px"
+                priority
+                className={`object-cover transition-opacity duration-300 ${
                   isInteractiveActive ? "opacity-0" : "opacity-100"
                 }`}
               />
-              <img
+              <Image
                 src={darkHoverSrc}
-                alt={`${profile.name} — Dream Mode Gesture`}
-                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${
+                alt={`${profile.name} — Rest mode hover illustration`}
+                fill
+                sizes="(max-width: 640px) 176px, 224px"
+                className={`object-cover transition-opacity duration-300 ${
                   isInteractiveActive ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -189,7 +201,7 @@ export default function InteractiveProfileImage({
           {/* ── Subtle Inner Bevel / Ring ── */}
           <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5 dark:ring-white/10 pointer-events-none" />
 
-          {/* ── Natural Bottom Gradient (Only 26% height, never covers face or gesture) ── */}
+          {/* ── Natural Bottom Gradient ── */}
           <motion.div
             initial={false}
             animate={{
@@ -199,7 +211,7 @@ export default function InteractiveProfileImage({
             className="absolute inset-x-0 bottom-0 h-[28%] bg-gradient-to-t from-black/55 via-black/20 to-transparent pointer-events-none"
           />
 
-          {/* ── Refined In-Image Typography (Positioned ~14-18px from bottom) ── */}
+          {/* ── Refined In-Image Typography ── */}
           <motion.div
             initial={false}
             animate={{
@@ -209,20 +221,19 @@ export default function InteractiveProfileImage({
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="hidden sm:flex absolute bottom-3.5 left-4 right-4 pointer-events-none flex-col justify-end text-left"
           >
-            <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-white/90 drop-shadow-xs mb-0.5">
+            <span className="text-[10px] font-mono font-semibold uppercase tracking-[0.16em] text-white/90 mb-0.5">
               {currentLabel}
             </span>
-            <p className="text-[11px] font-sans text-white/80 font-normal leading-tight drop-shadow-xs">
+            <p className="text-[11px] font-sans text-white/80 font-normal leading-tight">
               {currentMessage}
             </p>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* ── Persistent Status Row Underneath (Always visible identity) ── */}
-      <div className="mt-3 flex items-center justify-center lg:justify-end gap-2 text-xs font-mono text-muted">
-        {/* Subtle Breathing Status Dot (Scale 1 → 1.08, Opacity 1 → 0.75 over 2.8s) */}
-        <span className="relative flex h-2 w-2 shrink-0 items-center justify-center">
+      {/* ── Persistent Status Row Underneath ── */}
+      <div className="mt-3 flex items-center justify-start sm:justify-center lg:justify-end gap-2 text-xs font-mono text-muted">
+        <span className="relative flex h-2 w-2 shrink-0 items-center justify-center" aria-hidden="true">
           <motion.span
             animate={
               prefersReducedMotion
@@ -243,14 +254,12 @@ export default function InteractiveProfileImage({
           />
         </span>
 
-        {/* Mode Label */}
         <span className="font-semibold text-foreground tracking-wider uppercase text-[11px]">
           {currentLabel}
         </span>
 
-        <span className="text-subtle">·</span>
+        <span className="text-subtle" aria-hidden="true">·</span>
 
-        {/* Persistent Micro Message */}
         <span className="text-subtle text-[11px] whitespace-nowrap">
           {currentMessage}
         </span>

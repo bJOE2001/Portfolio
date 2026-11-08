@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Sparkles, X, Send, User, RotateCcw, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { MessageSquare, X, Send, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { profile } from "@/data/portfolio";
 
@@ -10,36 +11,36 @@ type Message = {
   content: string;
 };
 
+const INITIAL_MESSAGE: Message = {
+  role: "model",
+  content:
+    "Hi! I'm Belly Joe's portfolio assistant. Ask about his freelance development services, delivered systems, core stack, or availability.",
+};
+
 const SUGGESTIONS = [
-  "Tell me about LibraSense & BINHI 2026",
-  "What do you do at City Government of Tagum?",
-  "What is your primary tech stack?",
+  "What systems can you build for clients?",
+  "Tell me about the TCYSDO project",
+  "What is your core stack & AI workflow?",
+  "How can we start a project?",
 ];
 
 export default function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "model",
-      content:
-        "Hello! I'm Belly Joe's AI assistant. Ask me anything about his engineering experience, full-stack projects, research presentations, or technical capabilities.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([INITIAL_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-scroll to bottom
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      }, 80);
+      return () => clearTimeout(timer);
     }
   }, [messages, isLoading, isOpen]);
 
-  // Focus input on open & Escape listener
   useEffect(() => {
     if (!isOpen) return;
 
@@ -56,22 +57,23 @@ export default function Chatbot() {
     if (!queryText.trim() || isLoading) return;
 
     const userMessage = queryText.trim();
+    const nextMessages: Message[] = [
+      ...messages,
+      { role: "user", content: userMessage },
+    ];
     setInput("");
-    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
+    setMessages(nextMessages);
     setIsLoading(true);
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [...messages, { role: "user", content: userMessage }],
-        }),
+        body: JSON.stringify({ messages: nextMessages }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null);
-        throw new Error(errorData?.details || errorData?.error || "Failed to fetch response");
+        throw new Error("Request failed");
       }
 
       setMessages((prev) => [...prev, { role: "model", content: "" }]);
@@ -80,38 +82,28 @@ export default function Chatbot() {
       const decoder = new TextDecoder();
       let done = false;
 
-      while (!done) {
-        if (!reader) break;
+      while (!done && reader) {
         const { value, done: readerDone } = await reader.read();
         done = readerDone;
         if (value) {
           const chunk = decoder.decode(value);
           setMessages((prev) => {
-            const newMessages = [...prev];
-            const lastMessage = { ...newMessages[newMessages.length - 1] };
-            lastMessage.content += chunk;
-            newMessages[newMessages.length - 1] = lastMessage;
-            return newMessages;
+            const updated = [...prev];
+            const last = { ...updated[updated.length - 1] };
+            last.content += chunk;
+            updated[updated.length - 1] = last;
+            return updated;
           });
         }
       }
-    } catch (error: any) {
-      console.error("Chat error:", error);
-      let errorMessage = error?.message || "Oops! Something went wrong.";
-
-      if (
-        errorMessage.includes("429") ||
-        errorMessage.toLowerCase().includes("quota") ||
-        errorMessage.includes("Too Many Requests")
-      ) {
-        errorMessage =
-          "I'm receiving a high volume of inquiries right now. Please wait a brief moment and try again.";
-      } else {
-        errorMessage =
-          "I encountered an issue processing your question. Please try asking again shortly.";
-      }
-
-      setMessages((prev) => [...prev, { role: "model", content: errorMessage }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "model",
+          content: `I couldn't process that right now. You can reach me directly at ${profile.email} to discuss your project.`,
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -127,116 +119,122 @@ export default function Chatbot() {
       {
         role: "model",
         content:
-          "Chat reset. Feel free to ask about my software projects, government work, or skills.",
+          "Conversation cleared. Ask about my services, case studies, technical stack, or freelance availability.",
       },
     ]);
   };
 
   return (
     <>
-      {/* Floating Trigger Pill */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <motion.button
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          onClick={() => setIsOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-border bg-surface text-foreground shadow-lg hover:border-foreground/30 transition-all focus-visible:outline-none"
-          aria-label="Open AI Assistant"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span className="text-xs font-mono font-medium">Ask AI Assistant</span>
-          <Sparkles size={13} className="text-muted group-hover:text-foreground transition-colors" />
-        </motion.button>
-      </div>
+      {/* Unobtrusive Floating Trigger */}
+      {!isOpen && (
+        <div className="fixed bottom-5 right-5 z-40">
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="group flex items-center gap-2 px-3.5 py-2.5 rounded-full border border-border bg-surface/95 backdrop-blur-sm text-muted hover:text-foreground hover:border-foreground/35 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label="Open portfolio assistant"
+          >
+            <MessageSquare size={14} aria-hidden="true" />
+            <span className="hidden sm:inline text-xs font-mono">
+              Ask Assistant
+            </span>
+          </button>
+        </div>
+      )}
 
-      {/* Slide-over / Modal Popover */}
+      {/* Assistant Dialog */}
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs"
+              className="fixed inset-0 z-50 bg-black/35 backdrop-blur-[1px]"
             />
 
-            {/* Chat Window */}
             <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="chatbot-title"
+              initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 30, scale: 0.98 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[420px] h-[580px] max-h-[85vh] flex flex-col rounded-2xl border border-border bg-surface shadow-2xl overflow-hidden"
+              exit={{ opacity: 0, y: 20, scale: 0.98 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[400px] h-[540px] max-h-[82vh] flex flex-col rounded-2xl border border-border bg-surface shadow-2xl overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-border bg-surface-hover/50">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full overflow-hidden border border-border bg-surface shrink-0">
-                    <img
+              <div className="flex items-center justify-between px-4 py-3.5 border-b border-border bg-surface-hover/50">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative w-7 h-7 rounded-full overflow-hidden border border-border bg-surface shrink-0">
+                    <Image
                       src={profile.avatarUrl}
                       alt={profile.name}
-                      className="w-full h-full object-cover dark:hidden"
+                      fill
+                      sizes="28px"
+                      className="object-cover dark:hidden"
                     />
-                    <img
+                    <Image
                       src={profile.darkAvatarUrl}
                       alt={profile.name}
-                      className="w-full h-full object-cover hidden dark:block"
+                      fill
+                      sizes="28px"
+                      className="object-cover hidden dark:block"
                     />
                   </div>
                   <div>
-                    <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
+                    <h2
+                      id="chatbot-title"
+                      className="text-xs font-bold text-foreground flex items-center gap-1.5"
+                    >
                       <span>{profile.name}</span>
-                      <span className="text-[10px] font-mono font-normal text-muted">AI</span>
-                    </h3>
+                      <span className="text-[10px] font-mono font-normal text-muted">
+                        · Assistant
+                      </span>
+                    </h2>
                     <p className="text-[10px] font-mono text-subtle">
-                      Powered by Gemini · Streaming
+                      Projects, services &amp; availability
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-1">
                   <button
+                    type="button"
                     onClick={handleClear}
-                    title="Reset chat"
-                    className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors"
+                    aria-label="Reset conversation"
+                    title="Reset conversation"
+                    className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
                   >
-                    <RotateCcw size={14} />
+                    <RotateCcw size={14} aria-hidden="true" />
                   </button>
                   <button
+                    type="button"
                     onClick={() => setIsOpen(false)}
-                    aria-label="Close chat"
-                    className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors"
+                    aria-label="Close assistant"
+                    className="p-1.5 rounded-md text-muted hover:text-foreground hover:bg-surface transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
                   >
-                    <X size={16} />
+                    <X size={16} aria-hidden="true" />
                   </button>
                 </div>
               </div>
 
-              {/* Messages Flow */}
-              <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 text-xs font-sans">
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs font-sans">
                 {messages.map((m, idx) => (
                   <div
                     key={idx}
-                    className={`flex gap-2.5 ${
+                    className={`flex ${
                       m.role === "user" ? "justify-end" : "justify-start"
                     }`}
                   >
-                    {m.role === "model" && (
-                      <div className="w-6 h-6 rounded-full border border-border bg-surface-hover flex items-center justify-center shrink-0 mt-0.5">
-                        <Sparkles size={11} className="text-muted" />
-                      </div>
-                    )}
-
                     <div
-                      className={`max-w-[82%] px-3.5 py-2.5 rounded-xl leading-relaxed whitespace-pre-wrap ${
+                      className={`max-w-[85%] px-3.5 py-2.5 rounded-xl leading-relaxed whitespace-pre-wrap ${
                         m.role === "user"
-                          ? "bg-foreground text-background font-medium rounded-br-xs"
-                          : "bg-surface-hover text-foreground border border-border-subtle rounded-bl-xs"
+                          ? "bg-foreground text-background font-medium rounded-br-sm"
+                          : "bg-surface-hover text-foreground border border-border-subtle rounded-bl-sm"
                       }`}
                     >
                       {m.content}
@@ -244,12 +242,12 @@ export default function Chatbot() {
                   </div>
                 ))}
 
-                {isLoading && (
-                  <div className="flex gap-2.5">
-                    <div className="w-6 h-6 rounded-full border border-border bg-surface-hover flex items-center justify-center shrink-0 mt-0.5">
-                      <Sparkles size={11} className="text-muted" />
-                    </div>
-                    <div className="px-3.5 py-2.5 rounded-xl bg-surface-hover border border-border-subtle text-muted flex items-center gap-1">
+                {isLoading && messages[messages.length - 1]?.role === "user" && (
+                  <div className="flex justify-start">
+                    <div
+                      aria-label="Assistant is typing"
+                      className="px-3.5 py-2.5 rounded-xl bg-surface-hover border border-border-subtle text-muted flex items-center gap-1"
+                    >
                       <span className="w-1.5 h-1.5 rounded-full bg-muted animate-pulse" />
                       <span className="w-1.5 h-1.5 rounded-full bg-muted animate-pulse delay-100" />
                       <span className="w-1.5 h-1.5 rounded-full bg-muted animate-pulse delay-200" />
@@ -260,18 +258,19 @@ export default function Chatbot() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Suggestions */}
+              {/* Suggested Questions */}
               {messages.length <= 2 && !isLoading && (
-                <div className="px-4 py-2 bg-surface-hover/30 border-t border-border-subtle flex flex-col gap-1.5">
-                  <span className="text-[10px] font-mono text-subtle uppercase">
-                    Suggested Questions
+                <div className="px-4 py-2.5 bg-surface-hover/30 border-t border-border-subtle flex flex-col gap-1.5">
+                  <span className="text-[10px] font-mono text-subtle uppercase tracking-wider">
+                    Quick Questions
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {SUGGESTIONS.map((s) => (
                       <button
                         key={s}
+                        type="button"
                         onClick={() => sendQuery(s)}
-                        className="text-left text-[11px] px-2.5 py-1 rounded-md border border-border bg-surface hover:bg-surface-hover text-muted hover:text-foreground transition-colors truncate max-w-full"
+                        className="text-left text-[11px] px-2.5 py-1 rounded-md border border-border bg-surface hover:bg-surface-hover text-muted hover:text-foreground transition-colors truncate max-w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
                       >
                         {s}
                       </button>
@@ -285,22 +284,26 @@ export default function Chatbot() {
                 onSubmit={handleSubmit}
                 className="p-3 border-t border-border bg-surface flex items-center gap-2"
               >
+                <label htmlFor="chatbot-input" className="sr-only">
+                  Ask a question about Belly Joe&apos;s work or services
+                </label>
                 <input
+                  id="chatbot-input"
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask a question..."
+                  placeholder="Ask about projects or services..."
                   disabled={isLoading}
-                  className="flex-1 px-3 py-2 text-xs rounded-lg border border-border bg-surface-hover text-foreground placeholder:text-subtle focus:outline-none focus:border-foreground/40 transition-colors"
+                  className="flex-1 px-3 py-2 text-xs rounded-lg border border-border bg-surface-hover text-foreground placeholder:text-subtle focus:outline-none focus:ring-2 focus:ring-foreground/30 transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || isLoading}
-                  className="p-2 rounded-lg bg-foreground text-background disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 transition-opacity focus-visible:outline-none"
-                  aria-label="Send query"
+                  className="p-2 rounded-lg bg-foreground text-background disabled:opacity-30 disabled:cursor-not-allowed hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
+                  aria-label="Send message"
                 >
-                  <Send size={13} />
+                  <Send size={13} aria-hidden="true" />
                 </button>
               </form>
             </motion.div>
